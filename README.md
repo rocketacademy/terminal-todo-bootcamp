@@ -1,3 +1,3 @@
-# Coding Bootcamp
+# Rocket Academy Coding Bootcamp
 
-## Command Line To-Do App
+## Terminal To-Do App
