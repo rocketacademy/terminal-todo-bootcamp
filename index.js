@@ -1,4 +1,4 @@
-import { add, write, read, edit } from "./jsonFileStorage.js";
+import { add, remove, read, edit } from "./jsonFileStorage.js";
 
 let action = process.argv[2];
 let userInput = process.argv[3];
@@ -22,7 +22,7 @@ const handleJsonRead = (err, jsonContentObj) => {
     }
   }
 
-  if (action === "show" || action === "complete") {
+  if (action === "show" || action === "complete" || action === "remove") {
     {
       // If no error, edit the content
       if (!err) {
@@ -58,4 +58,8 @@ switch (action) {
     break;
   case "complete":
     edit("data.json", handleJsonRead, handleJsonWrite);
+    break;
+  case "remove":
+    remove("data.json", "items", "Todo", userInput, handleJsonWrite);
+    break;
 }

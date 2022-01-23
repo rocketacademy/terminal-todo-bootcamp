@@ -84,6 +84,7 @@ export function edit(filename, readCallback, writeCallback) {
  * Add a JS Object to an array of Objects in a JSON file
  * @param {string} filename - Name of JSON file
  * @param {string} key - The key in the JSON file whose value is the target array
+ * @param {string} key2 - The key in the JSON file whose value is the target array
  * @param {string} input - The value to append to the target array
  * @param {function} callback - The callback function to execute on error or success
  *                              Callback takes read or write error as 1st param and written string as 2nd param.
@@ -111,6 +112,44 @@ export function add(filename, key, key2, input, callback) {
       if (input !== undefined) {
         // Add input element to target array
         jsonContentObj[key][key2].push(input);
+      }
+    },
+    // Pass callback to edit to be called after edit completion
+    callback
+  );
+}
+
+/**
+ * Remove an element from an array in JSON
+ * @param {string} filename
+ * @param {string} key - The name of the key of the array we wish to edit
+ * @param {string} key2 - The key in the JSON file whose value is the target array
+ * @param {number} index - The index of the array we wish to delete from
+ * @param {function} callback - The callback function to call after removing
+ * @returns undefined
+ */
+export function remove(filename, key, key2, input, callback) {
+  edit(
+    filename,
+    (err, jsonContentObj) => {
+      // Exit if there was an error
+      if (err) {
+        console.error("Edit error", err);
+        callback(err);
+        return;
+      }
+
+      // Exit if key does not exist in DB
+      if (!(key in jsonContentObj)) {
+        console.error("Key does not exist");
+        // Call callback with relevant error message to let client handle
+        callback("Key does not exist");
+        return;
+      }
+
+      if (input !== undefined) {
+        // Delete input element to target array
+        jsonContentObj[key][key2].splice(Number(input) - 1, 1);
       }
     },
     // Pass callback to edit to be called after edit completion
