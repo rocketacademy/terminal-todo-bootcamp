@@ -21,13 +21,7 @@ const handleJsonRead = (err, jsonContentObj) => {
       console.log(`Please input a number greater than 1`);
     }
   }
-  if (action === "add") {
-    if (!err && userInput !== undefined) {
-      console.log(`I have added ${userInput} to your to-do list`);
-    } else {
-      console.log(`Please input the item you wish to add`);
-    }
-  }
+
   if (action === "show" || action === "complete") {
     {
       // If no error, edit the content
@@ -45,15 +39,23 @@ const handleJsonRead = (err, jsonContentObj) => {
   }
 };
 
+const handleJsonWrite = (err) => {
+  if (action === "add") {
+    if (!err && userInput !== undefined) {
+      console.log(`I have added ${userInput} to your to-do list`);
+    } else {
+      console.log(`Please input the item you wish to add`);
+    }
+  }
+};
+
 switch (action) {
   case "show":
     read("data.json", handleJsonRead);
     break;
   case "add":
-    add("data.json", "items", "Todo", userInput, handleJsonRead);
+    add("data.json", "items", "Todo", userInput, handleJsonWrite);
     break;
   case "complete":
-    edit("data.json", handleJsonRead, (err, jsonContentObj) => {
-      console.log("");
-    });
+    edit("data.json", handleJsonRead, handleJsonWrite);
 }
