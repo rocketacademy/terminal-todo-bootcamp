@@ -1,3 +1,4 @@
+import { KeyObject } from 'crypto';
 import { readFile, writeFile } from 'fs';
 
 export const read = (file, callback) => {
@@ -76,13 +77,15 @@ export const complete = (file, number, callback) => {
       }
       let selectedItem;
       // iterates over the values in object "items"
-      for (const items of Object.values(jsonContentObj)) {
-        // select item specified as "done"
-        let checkItem = items[number];
-        // if item is undefined, don't add into var
-        if (checkItem !== undefined) {
-          selectedItem = checkItem;
-          console.log('selected item:', selectedItem);
+      for (const [key, items] of Object.entries(jsonContentObj)) {
+        if (key === 'items') {
+          // select item specified as "done"
+          let checkItem = items[number];
+          // if item is undefined, don't add into var
+          if (checkItem !== undefined) {
+            selectedItem = checkItem;
+            console.log('selected item:', selectedItem);
+          }
         }
       }
       // if key "done" is not found, add the key
