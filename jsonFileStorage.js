@@ -82,6 +82,7 @@ export const complete = (file, number, callback) => {
         // if item is undefined, don't add into var
         if (checkItem !== undefined) {
           selectedItem = checkItem;
+          console.log('selected item:', selectedItem);
         }
       }
       // if key "done" is not found, add the key
@@ -94,6 +95,7 @@ export const complete = (file, number, callback) => {
       }
       // remove selected item from "todo" list
       jsonContentObj['items'].splice(number, 1);
+      console.log(`Marking "${selectedItem}" as done.`);
     },
     callback
   );
