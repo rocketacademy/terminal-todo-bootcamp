@@ -14,9 +14,13 @@ if (command === 'show') {
       for (let i = 0; i < items.length; i += 1) {
         output += `${i + 1}. ${items[i]}\n`;
       }
-      output += `\nDone:\n`;
-      for (let i = 0; i < done.length; i += 1) {
-        output += `${i + 1}. ${done[i]}\n`;
+      if (!content['done']) {
+        null;
+      } else {
+        output += `\nDone:\n`;
+        for (let i = 0; i < done.length; i += 1) {
+          output += `${i + 1}. ${done[i]}\n`;
+        }
       }
       console.log(output);
     }
