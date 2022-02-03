@@ -1,5 +1,5 @@
 import {
-  add, edit, remove, read, editOneElement,
+  add, complete, remove, read, editOneElement,
 } from './jsonFileStorage.js';
 import getDateNow from './date.js';
 
@@ -39,26 +39,38 @@ if (process.argv[2] === 'show') {
   });
 } else if (process.argv[2] === 'complete') {
   const index = parseInt(process.argv[3], 10);
+  let completedItem;
 
-  edit('data.json', (err, data) => {
-    if (!err) {
+  read('data.json', (errRead, data) => {
+    if (!errRead) {
       const items = data.items.filter(
         (item) => (item.completed === null) && (item.removed === null),
       );
+      completedItem = items[index - 1];
 
-      items[index - 1].completed = getDateNow();
-    }
-  }, (err) => {
-    if (!err) {
-      console.log(`I have marked item ${index}, "?" as complete.`);
+      complete('data.json', 'items', index, (errComplete) => {
+        if (!errComplete) {
+          console.log(`I have marked item ${index}, "${completedItem.task}" as complete.`);
+        }
+      });
     }
   });
 } else if (process.argv[2] === 'remove') {
   const index = process.argv[3];
+  let removedItem;
 
-  remove('data.json', 'items', index, (err) => {
-    if (!err) {
-      console.log(`I have removed item ${index}, "?".`);
+  read('data.json', (errRead, data) => {
+    if (!errRead) {
+      const items = data.items.filter(
+        (item) => (item.completed === null) && (item.removed === null),
+      );
+      removedItem = items[index - 1];
+
+      remove('data.json', 'items', index, (errRemove) => {
+        if (!errRemove) {
+          console.log(`I have removed item ${index}, "${removedItem.task}".`);
+        }
+      });
     }
   });
 } else if (process.argv[2] === 'edit') {
@@ -70,10 +82,20 @@ if (process.argv[2] === 'show') {
     completed: null,
     removed: null,
   };
+  let editedItem;
 
-  editOneElement('data.json', 'items', index, newTask, (err) => {
-    if (!err) {
-      console.log(`I have edited item ${index}, "?" to be "${newItem}".`);
+  read('data.json', (errRead, data) => {
+    if (!errRead) {
+      const items = data.items.filter(
+        (item) => (item.completed === null) && (item.removed === null),
+      );
+      editedItem = items[index - 1];
+
+      editOneElement('data.json', 'items', index, newTask, (err) => {
+        if (!err) {
+          console.log(`I have edited item ${index}, "${editedItem.task}" to be "${newItem}".`);
+        }
+      });
     }
   });
 }

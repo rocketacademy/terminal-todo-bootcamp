@@ -117,6 +117,46 @@ export function add(filename, key, input, callback) {
 }
 
 /**
+ * Complete an element from an array in JSON
+ * @param {string} filename
+ * @param {string} key - The name of the key of the array we wish to edit
+ * @param {number} index - The index of the array we wish to delete from
+ * @param {function} callback - The callback function to call after completing
+ * @returns undefined
+ */
+export function complete(filename, key, index, callback) {
+  edit(
+    filename,
+    (err, jsonContentObj) => {
+      // Exit if there was an error
+      if (err) {
+        console.error('Remove error', err);
+        callback(err);
+        return;
+      }
+
+      // Exit if key does not exist in DB
+      if (!(key in jsonContentObj)) {
+        console.error('Key does not exist');
+        // Call callback with relevant error message to let client handle
+        callback('Key does not exist');
+        return;
+      }
+
+      // Get available items
+      const items = jsonContentObj[key].filter(
+        (item) => (item.completed === null) && (item.removed === null),
+      );
+
+      // Complete element
+      items[index - 1].completed = getDateNow();
+    },
+    // Pass callback to remove to be called after remove completion
+    callback,
+  );
+}
+
+/**
  * Remove an element from an array in JSON
  * @param {string} filename
  * @param {string} key - The name of the key of the array we wish to edit
@@ -190,10 +230,9 @@ export function editOneElement(filename, key, index, payload, callback) {
       );
 
       // Edit element
-      items[index - 1].task = payload.task;
-      items[index - 1].added = payload.added;
-      items[index - 1].completed = payload.completed;
-      items[index - 1].removed = payload.removed;
+      Object.keys(items[index - 1]).forEach((k) => {
+        items[index - 1][k] = payload[k];
+      });
     },
     // Pass callback to remove to be called after remove completion
     callback,
