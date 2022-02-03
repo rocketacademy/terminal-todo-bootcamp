@@ -166,9 +166,36 @@ export function remove(filename, key, index, callback) {
  * @returns undefined
  */
 export function editOneElement(filename, key, index, payload, callback) {
-  remove(filename, key, index, (err) => {
-    if (!err) {
-      add(filename, key, payload, callback);
-    }
-  });
+  edit(
+    filename,
+    (err, jsonContentObj) => {
+      // Exit if there was an error
+      if (err) {
+        console.error('EditOneElement error', err);
+        callback(err);
+        return;
+      }
+
+      // Exit if key does not exist in DB
+      if (!(key in jsonContentObj)) {
+        console.error('Key does not exist');
+        // Call callback with relevant error message to let client handle
+        callback('Key does not exist');
+        return;
+      }
+
+      // Get available items
+      const items = jsonContentObj[key].filter(
+        (item) => (item.completed === null) && (item.removed === null),
+      );
+
+      // Edit element
+      items[index - 1].task = payload.task;
+      items[index - 1].added = payload.added;
+      items[index - 1].completed = payload.completed;
+      items[index - 1].removed = payload.removed;
+    },
+    // Pass callback to remove to be called after remove completion
+    callback,
+  );
 }
