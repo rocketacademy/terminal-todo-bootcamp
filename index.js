@@ -1,4 +1,6 @@
-import { add, edit, remove, read, editOneElement } from './jsonFileStorage.js';
+import {
+  add, edit, remove, read, editOneElement,
+} from './jsonFileStorage.js';
 import getDateNow from './date.js';
 
 if (process.argv[2] === 'show') {

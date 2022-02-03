@@ -112,7 +112,7 @@ export function add(filename, key, input, callback) {
       jsonContentObj[key].push(input);
     },
     // Pass callback to edit to be called after edit completion
-    callback
+    callback,
   );
 }
 
@@ -152,7 +152,7 @@ export function remove(filename, key, index, callback) {
       items[index - 1].removed = getDateNow();
     },
     // Pass callback to remove to be called after remove completion
-    callback
+    callback,
   );
 }
 
