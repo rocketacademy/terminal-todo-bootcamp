@@ -67,6 +67,12 @@ export const add = (file, key, input, callback) => {
   );
 };
 
+/**
+ *
+ * @param {string} filename
+ * @param {number} index - the index of the array we wish to delete
+ * @param {*} callback - the callback function to call afterm removing
+ */
 export const complete = (file, number, callback) => {
   edit(
     file,
@@ -91,9 +97,10 @@ export const complete = (file, number, callback) => {
       // if key "done" is not found, add the key
       if (!jsonContentObj['done']) {
         console.log('"Done" key not found, adding it in...');
-        // push selected item into "done" key as an array
+        // add selected item into "done" key as an array
         jsonContentObj['done'] = [selectedItem];
       } else {
+        // if key exists, push item into array
         jsonContentObj['done'].push(selectedItem);
       }
       // remove selected item from "todo" list
