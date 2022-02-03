@@ -56,9 +56,7 @@ const showCompleted = () => {
 
         console.log('To-Do-List:');
         // console log to do list items
-        for (let i = 0; i < toDoList.length; i += 1) {
-          console.log(`${i + 1}. ${toDoList[i]}`);
-        }
+        toDoList.forEach((element, index) => console.log(`${index + 1}: ${element}`));
       }
     }
   }, (writeErr, jsonContentStr) => {
@@ -71,9 +69,7 @@ const showCompleted = () => {
     const completedItems = jsonContentObj.Done;
     console.log('Done:');
     // console log to do list items
-    for (let i = 0; i < completedItems.length; i += 1) {
-      console.log(`${i + 1}. ${completedItems[i]}`);
-    }
+    completedItems.forEach((element, index) => console.log(`${index + 1}: ${element}`));
   });
 };
 

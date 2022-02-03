@@ -1,1 +1,12 @@
-{"To Do":["go jogging","drink water","wash dishes","mop the floor","send flowers","buy bread"],"Done":["eat fruits"]}
+{
+  "To Do": [
+    "send flowers",
+    "buy bread",
+    "eat fruits",
+    "go jogging",
+    "drink water",
+    "wash dishes",
+    "mop the floor"
+  ],
+  "Done": []
+}
