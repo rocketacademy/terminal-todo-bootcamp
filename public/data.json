@@ -1,0 +1,10 @@
+{
+  "items": [
+    "buy sunglasses",
+    "eat biscuits",
+    "drink water",
+    "eat vitamins",
+    "eat lunch"
+  ],
+  "done": ["go to bed", "buy food"]
+}
