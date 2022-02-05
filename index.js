@@ -1,4 +1,6 @@
-import { read, add, edit } from './jsonFileStorage.js';
+import {
+  read, add, edit, remove, editOneElement,
+} from './jsonFileStorage.js';
 
 const command = process.argv[2];
 
@@ -14,11 +16,14 @@ const showList = () => {
 
     // define to do list items
     const toDoList = jsonContentObj['To Do'];
+
     console.log('To-Do-List:');
     // console log to do list items
-    for (let i = 0; i < toDoList.length; i += 1) {
-      console.log(`${i + 1}. ${toDoList[i]}`);
-    }
+    toDoList.forEach((element, index) => console.log(`${index + 1}: ${element}`));
+
+    const completedList = jsonContentObj.Done;
+    console.log('Done:');
+    completedList.forEach((element, index) => console.log(`${index + 1}: ${element}`));
   });
 };
 
@@ -73,10 +78,37 @@ const showCompleted = () => {
   });
 };
 
+const removeItem = () => {
+  // remove(filename, key, input, callback)
+  const input = process.argv[3];
+  remove('data.json', 'To Do', input, (writeErr) => {
+    if (writeErr) {
+      console.error('Write error', writeErr);
+    }
+    showList();
+  });
+};
+
+const editOneItem = () => {
+  const index = process.argv[3];
+  const replacement = process.argv[4];
+  editOneElement('data.json', 'To Do', index, replacement,
+    (writeErr) => {
+      if (writeErr) {
+        console.error('Write error', writeErr);
+      }
+      showList();
+    });
+};
+
 if (command === 'show') {
   showList();
 } else if (command === 'add') {
   addItem();
 } else if (command === 'complete') {
   showCompleted();
+} else if (command === 'remove') {
+  removeItem();
+} else if (command === 'edit') {
+  editOneItem();
 }
