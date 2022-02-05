@@ -22,7 +22,7 @@ export function write(filename, jsonContentObj, callback) {
     }
     console.log("Write success!");
     // Call client-provided callback on successful write
-    callback(null, jsonContentStr);
+    // callback(null, jsonContentStr);
   });
 }
 
