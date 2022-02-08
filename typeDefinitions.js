@@ -1,6 +1,6 @@
 /**
  *
- * @typedef {object} Item
+ * @typedef {Object} Item
  * @property {string} desc Description
  * @property {boolean} done Complete flag
  * @property {string} dateAdded
@@ -10,6 +10,6 @@
 
 /**
  *
- * @typedef {object} Data
+ * @typedef {Object} Data
  * @property {[]Item} items
  */
