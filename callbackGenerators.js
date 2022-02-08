@@ -1,4 +1,4 @@
-// Callback generators
+import { edit } from "./fileManager.js";
 
 /**
  * Add a task.
@@ -51,34 +51,9 @@ export const getCallbackItemRemove = (itemIndex) => {
  */
 export const getCallbackItemEditOne = (itemIndex, newDesc) => {
   return (json) => {
-    const items = json.items.map((item, index) => {
-      if (index === itemIndex) {
-        return { ...item, desc: newDesc };
-      }
-      return { ...item };
-    });
+    const items = json.items.map((item, index) =>
+      index === itemIndex ? { ...item, desc: newDesc } : { ...item }
+    );
     return { ...json, items };
   };
-};
-
-/**
- *
- * @param {string} readPath Path to read and write.
- * @param {function(Data):void} okCb Error callback for both read and write operations.
- * @param {function(Error):void} errCb Error callback for both read and write operations.
- * @returns {function}
- */
-export const getDefaultViewFile = (readPath, okCb, errCb) => {
-  return () => view(readPath, okCb, errCb);
-};
-
-/**
- *
- * @param {string} commonPath Path to read and write.
- * @param {function(Error):void} commonErrCb Error callback for both read and write operations.
- * @returns {function(function(Data):Data):void}
- */
-const getDefaultExecutorFile = (commonPath, commonErrCb) => {
-  return (onReadOkCb) =>
-    edit(commonPath, onReadOkCb, commonErrCb, commonPath, commonErrCb);
 };
