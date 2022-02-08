@@ -18,10 +18,10 @@ const [_, __, command, arg0, arg1] = process.argv;
 
 // Custom Edit/View Methods
 
-let readPath = PATH_DATA;
-let writePath = PATH_DATA;
-let defaultReadErrorCb = console.log;
-let defaultWriteErrorCb = console.log;
+const readPath = PATH_DATA;
+const writePath = PATH_DATA;
+const defaultReadErrorCb = console.log;
+const defaultWriteErrorCb = console.log;
 const execute = (onReadOkCb) =>
   edit(
     readPath,
